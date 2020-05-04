@@ -25,8 +25,8 @@ bool ispis_podataka(string prezimeIme[], unsigned long long int brRacuna[],doubl
     for(int i=0;i<brKlijenata;i++)
     {
         if(prezimeIme[i]==pretrazivanje){
-        cout<<brRacuna[i]<<", "<<saldo[i]<<endl;
-        br++;}
+            cout<<brRacuna[i]<<", "<<saldo[i]<<endl;
+            br++;}
     }
     if(br==0)
         return false;
@@ -44,14 +44,14 @@ int main()
     int izbor;
     while(1)
     {
-      system("cls");
-      cout<<"1. Unos novog racuna"<<endl;
-      cout<<"2. ispisi sve podatke"<<endl;
-      cout<<"3. pretraga prema prezimenu i imenu"<<endl;
-      cout<<"4. brisanje racuna"<<endl;
-      cout<<"5. ispisi sortirano po prezimenu i imenu"<<endl;
-      cout<<"6. izmjena podataka prema broju racuna"<<endl;
-      cout<<"7. izlaz"<<endl;
+        system("cls");
+        cout<<"1. Unos novog racuna"<<endl;
+        cout<<"2. ispisi sve podatke"<<endl;
+        cout<<"3. pretraga prema prezimenu i imenu"<<endl;
+        cout<<"4. brisanje racuna"<<endl;
+        cout<<"5. ispisi sortirano po prezimenu i imenu"<<endl;
+        cout<<"6. izmjena podataka prema broju racuna"<<endl;
+        cout<<"7. izlaz"<<endl;
         cout<<"Unesite svoj odabir: ";
         cin >> izbor;
         if(izbor==1)
@@ -82,48 +82,72 @@ int main()
         }
         else if(izbor==2)
         {
-                   for(int i=0; i<brKlijenata; i++)
-                   {
-                       cout << brRacuna[i] << ", " << prezimeIme[i] << ", " << saldo[i] << endl;
-                   }
-                   cout<<"Suma svih salda iznosi:"<<accumulate(saldo,saldo+brKlijenata, 0.0)<<endl;
-                   int max_index=max_element(saldo,saldo+brKlijenata)-saldo;
-                   cout<<"Klijent koji ima najveci saldo: "<< prezimeIme[max_index]<<endl;
-                   cout<<"Broj racuna sa negativnim saldom: "<<count_if(saldo,saldo+brKlijenata,negativni_saldo)<<endl;
-                   cout<<"Broj tekucih racuna: "<<count_if(brRacuna,brRacuna+brKlijenata,tekuci)<<endl;
+            for(int i=0; i<brKlijenata; i++)
+            {
+                cout << brRacuna[i] << ", " << prezimeIme[i] << ", " << saldo[i] << endl;
+            }
+            cout<<"Suma svih salda iznosi:"<<accumulate(saldo,saldo+brKlijenata, 0.0)<<endl;
+            int max_index=max_element(saldo,saldo+brKlijenata)-saldo;
+            cout<<"Klijent koji ima najveci saldo: "<< prezimeIme[max_index]<<endl;
+            cout<<"Broj racuna sa negativnim saldom: "<<count_if(saldo,saldo+brKlijenata,negativni_saldo)<<endl;
+            cout<<"Broj tekucih racuna: "<<count_if(brRacuna,brRacuna+brKlijenata,tekuci)<<endl;
         }
         else if(izbor==3)
         {
-                    cout<< "Unesite ime i prezime koje pretrazujete: ";
-                    string pretrazivanje;
-                    cin.ignore();
-                    getline(cin,pretrazivanje);
-                    if(ispis_podataka(prezimeIme,brRacuna,saldo,brKlijenata,pretrazivanje)==false)
-                    {
-                        cout<<"Nema takvih klijenata"<<endl;
-                    }
+            cout<< "Unesite ime i prezime koje pretrazujete: ";
+            string pretrazivanje;
+            cin.ignore();
+            getline(cin,pretrazivanje);
+            if(ispis_podataka(prezimeIme,brRacuna,saldo,brKlijenata,pretrazivanje)==false)
+            {
+                cout<<"Nema takvih klijenata"<<endl;
+            }
         }
         else if(izbor==4)
         {
-                    unsigned long long broj;int i;
-                    cout<<"Unesite broj racuna koji zelite izbrisati: ";
-                    cin>>broj;
-                    for(i=0;i<brKlijenata;i++)
+            unsigned long long broj;int i;
+            cout<<"Unesite broj racuna koji zelite izbrisati: ";
+            cin>>broj;
+            for(i=0;i<brKlijenata;i++)
+            {
+                if(brRacuna[i]==broj)
+                {
+                    for(int j=0;j<brKlijenata;j++)
                     {
-                        if(brRacuna[i]==broj)
-                        {
-                            for(int j=0;j<brKlijenata;j++)
-                            {
-                                brRacuna[j]=brRacuna[j+1];
-                                prezimeIme[j]=prezimeIme[j+1];
-                                saldo[j]=saldo[j+1];
-                            }
-                            brKlijenata--;
-                            break;
-                        }
+                        brRacuna[j]=brRacuna[j+1];
+                        prezimeIme[j]=prezimeIme[j+1];
+                        saldo[j]=saldo[j+1];
                     }
-                    if(i==brKlijenata)
-                        cout<<"Trazenog broja nema.";
+                    brKlijenata--;
+                    break;
+                }
+            }
+            if(i==brKlijenata)
+                cout<<"Trazenog broja nema.";
+        }
+        else if(izbor==5)
+        {
+            cout<<"Racuni sortirani A-Z"<<endl;
+            copy(prezimeIme,prezimeIme+brKlijenata,prezimeIme2);
+            copy(saldo,saldo+brKlijenata,saldo2);
+            copy(brRacuna,brRacuna+brKlijenata,brRacuna2);
+            for(int i=0;i<brKlijenata;i++)
+            {
+                for(int j=brKlijenata-1;j>i;j--)
+                {
+                    if(prezimeIme[i]>prezimeIme[i+1]){
+                        swap(prezimeIme2[i],prezimeIme2[i+1]);
+                        swap(saldo2[i],saldo2[i+1]);
+                        swap(brRacuna2[i],brRacuna2[i+1]);
+                    }
+                }
+
+            }
+
+            for(int i=0; i<brKlijenata; i++)
+            {
+                cout << brRacuna2[i]<< ", "<< prezimeIme2[i]<<", "<<saldo2[i]<<endl;
+            }
         }
     }
     return 0;
